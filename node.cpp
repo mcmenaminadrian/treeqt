@@ -94,7 +94,7 @@ istream& operator>>(istream& is, Tree& t)
 
 Tree::Tree()
 {
-	distance = 2;
+	distance = 11;
 }
 
 Tree::Tree(int d)
@@ -279,6 +279,96 @@ int Tree::min(int x) const
 int Tree::max(int x) const
 {
 	if (items[x]->right == -1)
-		return items[x]->yco;
+		return items[x]->xco;
 	max(items[x]->right);
+}
+
+int Tree::maxdepth(int x) const
+{
+	if (items[x]->left == -1)
+		return items[x]->yco * 2;
+	else
+		maxdepth(items[x]->left);
+}
+
+void Tree::draw_next_line(ostream& os, int nxtnode, int prevx, int prevy,
+			const int offset) const
+{
+	//draw lines
+	if (prevx != -1 && prevy != -1) {
+		os << "<line x1 = \""; 
+		os << (prevx + offset) * 10 <<"\" y1 = \"";
+		os << prevy * 240 + 120 << "\" x2 = \"";
+		os << (items[nxtnode]->xco + offset) * 10;
+		os << "\" y2 = \"" << items[nxtnode]->yco * 240 + 120;
+		os << "\" stroke = \"black\" stroke-width = \"3\"/>" << endl;
+	}
+	//now recurse
+	if (items[nxtnode]->left == -1)
+		return;
+	draw_next_line(os, items[nxtnode]->left, items[nxtnode]->xco,
+		items[nxtnode]->yco, offset);
+	if (items[nxtnode]->right == -1)
+		return;
+	draw_next_line(os, items[nxtnode]->right, items[nxtnode]->xco,
+		items[nxtnode]->yco, offset);
+}
+
+void Tree::draw_next_node(ostream& os, int nxtnode, const int offset) const
+{
+	if (items[nxtnode]->getvalue() == "NULL") {
+		//terminal node
+		os << "<circle cx=\"";
+		os << (items[nxtnode]->xco + offset) * 10;
+		os << "\" cy=\"";
+		os << items[nxtnode]->yco * 240 + 120;
+		os << "\" r=\"20\" fill=\"";
+		os << "black";
+		os << "\" stroke=\"gray\" stroke-width=\"1\" />" << endl;
+		return;
+	}
+	//draw balls
+	os << "<circle cx=\"";
+	os << (items[nxtnode]->xco + offset) * 10;
+	os << "\" cy=\"";
+	os << items[nxtnode]->yco * 240 + 120;
+	os << "\" r=\"50\" fill=\"";
+	if (items[nxtnode]->black)
+		os << "black";
+	else
+		os << "red";
+	os << "\" stroke=\"gray\" stroke-width=\"3\" />" << endl;
+	//write text
+	os << "<text x=\"";
+	os << (items[nxtnode]->xco + offset) * 10 - 40;
+	os << "\" y=\"";
+	os << items[nxtnode]->yco * 240 + 110;
+	os << "\" fill=\"white\" font-size=\"12\" >" << endl;
+	os << items[nxtnode]->getvalue() << endl;
+	os << "</text>" << endl;
+	os << "<text x=\"";
+	os << (items[nxtnode]->xco + offset) * 10 - 40;
+	os << "\" y=\"";
+	os << items[nxtnode]->yco * 240 + 130;
+	os << "\" fill=\"white\" font-size=\"12\" >" << endl;
+	os << items[nxtnode]->otherdata << endl;
+	os << "</text>" << endl;
+	//now recurse
+	draw_next_node(os, items[nxtnode]->left, offset);
+	draw_next_node(os, items[nxtnode]->right, offset);
+}
+
+ostream& Tree::output_svg(ostream& os) const
+{
+	int xmin = min(0);
+	int xmax = max(0);
+	int ymax = maxdepth(0); 
+	os << "<?xml version=\"1.0\" standalone=\"no\"?>" << endl;
+	os << "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"";
+	os << "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">" << endl;
+	os << "<svg viewBox = \"0 0 " << (xmax - xmin) * 10 + 100 << " ";
+	os << ymax * 240 << "\" version = \"1.1\">" << endl;
+	draw_next_line(os, 0, -1, -1, -xmin + 5);
+	draw_next_node(os, 0, -xmin + 5);
+	os << "</svg>" << endl;
 }

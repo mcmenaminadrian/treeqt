@@ -44,8 +44,12 @@ class Tree
 		vector<Node*> items;
 		int max(int) const;
 		int min(int) const;
+		int maxdepth(int) const;
+		ostream& output_svg(ostream& os) const;
 
 	private:
+		void draw_next_line(ostream&, int, int, int, const int) const;
+		void draw_next_node(ostream&, int, const int) const;
 		void calcpoints(Node*, int, Extreme&, Extreme&);
 		void fixpoints(Node*, int);
 		int distance;
