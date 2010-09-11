@@ -11,21 +11,25 @@ using namespace std;
 
 SvgWindow::SvgWindow()
 {
-	QSvgWidget *svgwid = new MemSvgWidget(this);
-	svgpaint = new QPainter(svgwid);
-
-	setCentralWidget(svgwid);
+	svgwid = new MemSvgWidget(this);
+        QScrollArea* qscrA = new QScrollArea();
+        qscrA->setWidget(svgwid);
+        qscrA->setWidgetResizable(true);
 	setWindowIcon(QIcon(":/balls.jpg"));
+       QDockWidget* scaler = new QDockWidget("&Scale");
+        svgwid->scalespin = new QSpinBox(this);
+        svgwid->scalespin->setRange(1, 10);
+        svgwid->scalespin->setValue(1);
+        scaler->setWidget(svgwid->scalespin);
+
+        setCentralWidget(qscrA);
+        addDockWidget(Qt::TopDockWidgetArea,scaler);
+
 }
 
-void SvgWindow::startup()
+void SvgWindow::startup(const Tree& t)
 {
-	string strbytes;
-	ostringstream strlines;
-	t->output_svg(strlines);
-	strbytes += strlines.str();
-	QByteArray qbytes = QByteArray(strbytes.c_str());
-	QSvgRenderer* balls = new QSvgRenderer(qbytes, this);
+	svgwid->t = new Tree(t);
 };
 
 

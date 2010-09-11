@@ -2,8 +2,10 @@
 #define SVGWINDOW_HPP
 
 #include <QMainWindow>
+#include <QtSvg>
 
 class Tree;
+class MemSvgWidget;
 
 class SvgWindow : public QMainWindow
 {
@@ -12,7 +14,8 @@ class SvgWindow : public QMainWindow
 public:
 	Tree* t;
 	SvgWindow();
-	void startup();	
+	void startup(const Tree&);
+	MemSvgWidget* svgwid;
 };
 
 #endif
