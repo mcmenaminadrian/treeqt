@@ -17,13 +17,14 @@ SvgWindow::SvgWindow()
         qscrA->setWidgetResizable(true);
 	setWindowIcon(QIcon(":/balls.jpg"));
        QDockWidget* scaler = new QDockWidget("&Scale");
-        svgwid->scalespin = new QSpinBox(this);
+       svgwid->scalespin = new QSlider(this);
         svgwid->scalespin->setRange(1, 10);
         svgwid->scalespin->setValue(1);
         scaler->setWidget(svgwid->scalespin);
-
         setCentralWidget(qscrA);
-        addDockWidget(Qt::TopDockWidgetArea,scaler);
+        addDockWidget(Qt::LeftDockWidgetArea,scaler);
+        QObject::connect(svgwid->scalespin, SIGNAL(valueChanged(int)),
+                         svgwid, SLOT(repaint()));
 
 }
 
