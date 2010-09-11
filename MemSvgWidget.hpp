@@ -11,7 +11,10 @@ public:
 	MemSvgWidget(QWidget*);
 	Tree* t;
 	QSvgRenderer* balls;
-        QSlider* scalespin;
+        QSlider* scaleslide;
+        QSlider* xslide;
+        QSlider* yslide;
+        SvgWindow* par;
 protected:
 	void paintEvent(QPaintEvent*);
 };

@@ -16,6 +16,7 @@ public:
 	SvgWindow();
 	void startup(const Tree&);
 	MemSvgWidget* svgwid;
+        QScrollArea* scrA;
 };
 
 #endif

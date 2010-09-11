@@ -21,13 +21,20 @@ void MemSvgWidget::paintEvent(QPaintEvent* qp)
 {
 	string strbytes;
 	ostringstream strlines;
-        scalespin->setVisible(true);
+        scaleslide->setVisible(true);
         QPainter painter(this);
         t->output_svg(strlines);
         strbytes = strlines.str();
 	QByteArray qbytes = QByteArray(strbytes.c_str());
 	delete balls;
 	balls = new QSvgRenderer(qbytes, this);
-        painter.scale(scalespin->value(), scalespin->value());
+        QSize qsiz = balls->defaultSize();
+        cout << "Width: " << qsiz.width() << " Height: " << qsiz.height() << endl;
+        QScrollBar* hbar = par->scrA->horizontalScrollBar();
+        hbar->show();
+        QScrollBar* vbar = par->scrA->verticalScrollBar();
+        vbar->show();
+        balls->setViewBox(QRect(qsiz.width() * xslide->value() / 100, qsiz.height() * yslide->value() / 100, qsiz.width(), qsiz.height()));
+        painter.scale(scaleslide->value()/100, scaleslide->value()/100);
         balls->render(&painter);
 }
