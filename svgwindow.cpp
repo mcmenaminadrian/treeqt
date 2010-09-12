@@ -12,16 +12,16 @@ using namespace std;
 SvgWindow::SvgWindow()
 {
 	svgwid = new MemSvgWidget(this);
-        svgwid->par = this;
+	svgwid->par = this;
 	setWindowIcon(QIcon(":/balls.jpg"));
-        QDockWidget* scaler =
-                new QDockWidget(tr("&Scale"));
-        QDockWidget* xpoint =
-                new QDockWidget(tr("&X point"));
-        QDockWidget* ypoint =
-                new QDockWidget(tr("&Y point"));
+	QDockWidget* scaler =
+		new QDockWidget(tr("&Scale"));
+	QDockWidget* xpoint =
+		new QDockWidget(tr("&X point"));
+	QDockWidget* ypoint =
+		new QDockWidget(tr("&Y point"));
         svgwid->scaleslide = new QSlider(this);
-        svgwid->scaleslide->setRange(100, 1000);
+        svgwid->scaleslide->setRange(100, 2000);
         svgwid->scaleslide->setValue(100);
         svgwid->xslide = new QSlider(this);
         svgwid->xslide->setRange(0, 999);
@@ -42,10 +42,7 @@ SvgWindow::SvgWindow()
                          svgwid, SLOT(repaint()));
         QObject::connect(svgwid->yslide, SIGNAL(valueChanged(int)),
                          svgwid, SLOT(repaint()));
-        scrA = new QScrollArea();
-        scrA->setWidget(svgwid);
-        scrA->setWidgetResizable(true);
-        setCentralWidget(scrA);
+	setCentralWidget(svgwid);
 }
 
 void SvgWindow::startup(const Tree& t)
