@@ -24,12 +24,15 @@ SvgWindow::SvgWindow()
         svgwid->scaleslide->setRange(100, 1000);
         svgwid->scaleslide->setValue(100);
         svgwid->xslide = new QSlider(this);
-        svgwid->xslide->setRange(0, 99);
+        svgwid->xslide->setRange(0, 999);
         svgwid->yslide = new QSlider(this);
-        svgwid->yslide->setRange(0, 99);
+        svgwid->yslide->setRange(0, 999);
         scaler->setWidget(svgwid->scaleslide);
         xpoint->setWidget(svgwid->xslide);
         ypoint->setWidget(svgwid->yslide);
+        svgwid->yslide->setInvertedAppearance(true);
+        svgwid->yslide->setInvertedControls(true);
+        svgwid->xslide->setOrientation(Qt::Horizontal);
         addDockWidget(Qt::LeftDockWidgetArea,scaler);
         addDockWidget(Qt::BottomDockWidgetArea, xpoint);
         addDockWidget(Qt::RightDockWidgetArea, ypoint);
@@ -41,8 +44,6 @@ SvgWindow::SvgWindow()
                          svgwid, SLOT(repaint()));
         scrA = new QScrollArea();
         scrA->setWidget(svgwid);
-        scrA->horizontalScrollBar()->setRange(0, 99);
-        scrA->verticalScrollBar()->setRange(0, 99);
         scrA->setWidgetResizable(true);
         setCentralWidget(scrA);
 }

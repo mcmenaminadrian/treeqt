@@ -29,12 +29,9 @@ void MemSvgWidget::paintEvent(QPaintEvent* qp)
 	delete balls;
 	balls = new QSvgRenderer(qbytes, this);
         QSize qsiz = balls->defaultSize();
-        cout << "Width: " << qsiz.width() << " Height: " << qsiz.height() << endl;
-        QScrollBar* hbar = par->scrA->horizontalScrollBar();
-        hbar->show();
-        QScrollBar* vbar = par->scrA->verticalScrollBar();
-        vbar->show();
-        balls->setViewBox(QRect(qsiz.width() * xslide->value() / 100, qsiz.height() * yslide->value() / 100, qsiz.width(), qsiz.height()));
+        balls->setViewBox(QRect(qsiz.width() * xslide->value() / 1000,
+               qsiz.height() * yslide->value() / 1000, qsiz.width(),
+               qsiz.height()));
         painter.scale(scaleslide->value()/100, scaleslide->value()/100);
         balls->render(&painter);
 }
