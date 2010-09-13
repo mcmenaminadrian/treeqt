@@ -17,14 +17,23 @@ MemSvgWidget::MemSvgWidget(QWidget* parent): QSvgWidget(parent)
 
 void MemSvgWidget::paintEvent(QPaintEvent* qp)
 {
+        if (par) {
+            if (par->timer) {
+                delete t;
+                Tree tt;
+                cin >> tt;
+                t = new Tree(tt);
+                par->timer->start(par->reptime * 1000);
+            }
+        }
 	string strbytes;
 	ostringstream strlines;
 	scaleslide->setVisible(true);
-	QPainter painter(this);
-	t->output_svg(strlines);
-	strbytes = strlines.str();
-	QByteArray qbytes = QByteArray(strbytes.c_str());
-	delete balls;
+        QPainter painter(this);
+        t->output_svg(strlines);
+        strbytes = strlines.str();
+        QByteArray qbytes = QByteArray(strbytes.c_str());
+        delete balls;
 	balls = new QSvgRenderer(qbytes, this);
 	QSize qsiz = balls->defaultSize();
 	balls->setViewBox(QRect(qsiz.width() * xslide->value() / 1000,
@@ -33,6 +42,6 @@ void MemSvgWidget::paintEvent(QPaintEvent* qp)
         //maintain te aspect ratio
         double xtoysvg = qsiz.width()/qsiz.height();
         double xtoywind = width()/height();
-        painter.scale(scaleslide->value()/100, (scaleslide->value()/100) * (xtoywind/xtoysvg));
+        painter.scale(scaleslide->value()/100, (scaleslide->value() * (xtoywind/xtoysvg)/100));
 	balls->render(&painter);
 }

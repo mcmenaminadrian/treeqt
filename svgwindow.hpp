@@ -16,6 +16,9 @@ public:
 	SvgWindow();
 	void startup(const Tree&);
 	MemSvgWidget* svgwid;
+        bool repeat;
+        int reptime;
+        QTimer* timer;
 };
 
 #endif

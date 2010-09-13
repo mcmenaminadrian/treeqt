@@ -11,8 +11,11 @@ using namespace std;
 
 SvgWindow::SvgWindow()
 {
+        timer = NULL;
 	svgwid = new MemSvgWidget(this);
 	svgwid->par = this;
+        repeat = false;
+        reptime = -1;
 	setWindowIcon(QIcon(":/balls.jpg"));
 	QDockWidget* scaler =
 		new QDockWidget(tr("&Scale"));
@@ -43,11 +46,17 @@ SvgWindow::SvgWindow()
         QObject::connect(svgwid->yslide, SIGNAL(valueChanged(int)),
                          svgwid, SLOT(repaint()));
 	setCentralWidget(svgwid);
+
 }
 
 void SvgWindow::startup(const Tree& t)
 {
 	svgwid->t = new Tree(t);
+        if (repeat) {
+            timer = new QTimer(this);
+            connect(timer, SIGNAL(timeout()), svgwid, SLOT(repaint()));
+            timer->start(reptime * 1000);
+        }
 };
 
 
