@@ -40,8 +40,8 @@ void MemSvgWidget::paintEvent(QPaintEvent* qp)
 		qsiz.height() * yslide->value() / 1000, qsiz.width(),
 		qsiz.height()));
         //maintain te aspect ratio
-        double xtoysvg = qsiz.width()/qsiz.height();
-        double xtoywind = width()/height();
+        double xtoysvg = qsiz.width()/(double)qsiz.height();
+        double xtoywind = width()/(double)height();
         painter.scale(scaleslide->value()/100.0, (scaleslide->value() * (xtoywind/xtoysvg)/100.0));
 	balls->render(&painter);
 }
