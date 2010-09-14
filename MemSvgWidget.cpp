@@ -42,6 +42,6 @@ void MemSvgWidget::paintEvent(QPaintEvent* qp)
         //maintain te aspect ratio
         double xtoysvg = qsiz.width()/qsiz.height();
         double xtoywind = width()/height();
-        painter.scale(scaleslide->value()/100, (scaleslide->value() * (xtoywind/xtoysvg)/100));
+        painter.scale(scaleslide->value()/100.0, (scaleslide->value() * (xtoywind/xtoysvg)/100.0));
 	balls->render(&painter);
 }
