@@ -9,7 +9,7 @@ using namespace std;
 void usage()
 {
     cout << "treeqt usage..." << endl;
-    cout << "./treeqt -r [s]    repeat every s seconds" << endl;
+    cout << "./treeqt --r [s]    repeat every s seconds" << endl;
 }
 
 int main(int argc, char *argv[])
